@@ -54,18 +54,18 @@ Relación INT NOT NULL
 -- No se creará index para esta tabla
 
 CREATE TABLE app1.Publicaciones(
-SeriePublicacion VARCHAR(5) NOT NULL,
 IDPublicacion INT NOT NULL ,
+SeriePublicacion VARCHAR(5) NOT NULL,
 FechaPublicado DATE DEFAULT GETDATE(),
 FechaModificado DATE DEFAULT NULL,
 TipoContenido INT
 -- Creamos una llave primaria compuesta
---PRIMARY KEY(IDPublicacion, SeriePublicacion) 
-PRIMARY KEY(IDPublicacion)
+PRIMARY KEY(IDPublicacion, SeriePublicacion) 
+
 
 )
 
---CREATE INDEX ConsultaPublicacion ON dbo.Publicaciones (SeriePublicacion, IdPublicacion)
+CREATE INDEX ConsultaPublicacion ON app1.Publicaciones (SeriePublicacion, IdPublicacion)
 
 
 CREATE TABLE app1.Comentarios(
@@ -74,10 +74,11 @@ SeriePublicacion VARCHAR(5),
 NumComentario INT,
 FechaComentario DATE DEFAULT GETDATE(),
 Usuariocomentario VARCHAR(30) FOREIGN KEY REFERENCES general.Usuarios(NombreUsuario),
-ContenidoComentario VARCHAR(300)
+ContenidoComentario VARCHAR(MAX),
 
 -- Llave foranea compuesta que referencía a app1.Publicaciones
---FOREIGN KEY (IDPublicacion, SeriePublicacion) REFERENCES app1.Publicaciones (IDPublicacion, SeriePublicacion)
+FOREIGN KEY (IDPublicacion, SeriePublicacion) REFERENCES App1.Publicaciones (IDPublicacion, SeriePublicacion)
+
 )
 
 --No se creará index para esta tabla
@@ -85,7 +86,7 @@ ContenidoComentario VARCHAR(300)
 CREATE TABLE app1.Reacciones(
 IDReaccion Varchar(10) PRIMARY KEY,
 TipoReaccion INT NOT NULL,
-Usuario Varchar(30) NOT NULL,
+Usuario Varchar(30) NOT NULL FOREIGN KEY REFERENCES general.Usuarios(NombreUsuario),
 HoraReaccion DATE DEFAULT GETDATE()
 
 )
@@ -93,24 +94,24 @@ HoraReaccion DATE DEFAULT GETDATE()
 CREATE UNIQUE INDEX IDReaccion ON app1.Reacciones (IDReaccion)
 
 CREATE TABLE app1.Seguidores(
-Usuario1 VARCHAR(30),
-Usuario2 VARCHAR(30),
+Usuario1 VARCHAR(30) FOREIGN KEY REFERENCES general.Usuarios(NombreUsuario),
+Usuario2 VARCHAR(30) FOREIGN KEY REFERENCES general.Usuarios(NombreUsuario),
 TipoSeguimiento INT
 
 )
 -- No se creará index para esta tabla
 
 CREATE TABLE general.Mensajes(
-Usuario1 VARCHAR(30) NOT NULL,
-Usuario2 VARCHAR(30) NOT NULL,
-ContenidoMsj VARCHAR(300),
+Usuario1 VARCHAR(30) NOT NULL FOREIGN KEY REFERENCES general.Usuarios(NombreUsuario),
+Usuario2 VARCHAR(30) NOT NULL FOREIGN KEY REFERENCES general.Usuarios(NombreUsuario),
+ContenidoMsj VARCHAR(MAX),
 
 )
 -- No se creará index para esta tabla
 
 CREATE TABLE general.Grupos(
-NombreGrupo VARCHAR(20) NOT NULL,
-Miembros VARCHAR(20)
+NombreGrupo VARCHAR(20) PRIMARY KEY,
+Miembros VARCHAR(30) FOREIGN KEY REFERENCES general.Usuarios(NombreUsuario)
 
 )
 CREATE UNIQUE INDEX NombreGrupo on general.Grupos (NombreGrupo)
