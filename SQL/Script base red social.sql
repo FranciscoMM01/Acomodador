@@ -1,3 +1,11 @@
+
+USE master
+GO
+-- Si existe la base borrarla para poder crearla nuevamente
+IF DATABASEPROPERTYEX('empresaX', 'Version') IS NOT NULL
+    DROP DATABASE empresaX;
+GO
+
 -- Se crea la base de datos
 CREATE DATABASE empresaX
 GO
@@ -11,13 +19,14 @@ CREATE SCHEMA app1;
 go
 CREATE SCHEMA app2;
 go
+
 CREATE SCHEMA app3;
 GO
 
 --Schema general para datos meta app
 --Schema APP1 tablas que solo se usaran en la primera app
---Schema APP2 tablas que solo se usar√°n en la segunda app
---Schema APP3 tablas que solo se usar√°n en la tercera app
+--Schema APP2 tablas que solo se usar·n en la segunda app
+--Schema APP3 tablas que solo se usar·n en la tercera app
 
 	
 CREATE TABLE general.Usuarios (
@@ -28,9 +37,9 @@ nombre VARCHAR (30) NOT NULL,
 Apellido VARCHAR(30),
 NombreUsuario VARCHAR(30) NOT NULL,
 edad INT, check (edad > 12), 
-cumplea√±os DATE,
-ciudad VARCHAR,
-contrase√±a INT NOT NULL default 123
+cumpleaÒos DATE,
+ciudad VARCHAR(50),
+contraseÒa INT NOT NULL default 123
 )
 
 CREATE UNIQUE INDEX NombreUsuario on General.Usuarios (NombreUsuario)
@@ -47,11 +56,11 @@ CREATE UNIQUE INDEX IDAPP on general.APlicaciones (IDAPP)
 CREATE TABLE app1.Amistades(
 IDusuario1 INT NOT NULL FOREIGN KEY REFERENCES general.usuarios(IDUsuario),
 IDusuario2 INT NOT NULL FOREIGN KEY REFERENCES general.usuarios(IDUsuario),
-Relaci√≥n INT NOT NULL
+RelaciÛn INT NOT NULL
 
 )
 
--- No se crear√° index para esta tabla
+-- No se crear· index para esta tabla
 
 CREATE TABLE app1.Publicaciones(
 IDPublicacion INT NOT NULL ,
@@ -76,12 +85,12 @@ FechaComentario DATE DEFAULT GETDATE(),
 Usuariocomentario VARCHAR(30) FOREIGN KEY REFERENCES general.Usuarios(NombreUsuario),
 ContenidoComentario VARCHAR(MAX),
 
--- Llave foranea compuesta que referenc√≠a a app1.Publicaciones
+-- Llave foranea compuesta que referencÌa a app1.Publicaciones
 FOREIGN KEY (IDPublicacion, SeriePublicacion) REFERENCES App1.Publicaciones (IDPublicacion, SeriePublicacion)
 
 )
 
---No se crear√° index para esta tabla
+--No se crear· index para esta tabla
 
 CREATE TABLE app1.Reacciones(
 IDReaccion Varchar(10) PRIMARY KEY,
@@ -99,7 +108,7 @@ Usuario2 VARCHAR(30) FOREIGN KEY REFERENCES general.Usuarios(NombreUsuario),
 TipoSeguimiento INT
 
 )
--- No se crear√° index para esta tabla
+-- No se crear· index para esta tabla
 
 CREATE TABLE general.Mensajes(
 Usuario1 VARCHAR(30) NOT NULL FOREIGN KEY REFERENCES general.Usuarios(NombreUsuario),
@@ -107,7 +116,7 @@ Usuario2 VARCHAR(30) NOT NULL FOREIGN KEY REFERENCES general.Usuarios(NombreUsua
 ContenidoMsj VARCHAR(MAX),
 
 )
--- No se crear√° index para esta tabla
+-- No se crear· index para esta tabla
 
 CREATE TABLE general.Grupos(
 NombreGrupo VARCHAR(20) PRIMARY KEY,
