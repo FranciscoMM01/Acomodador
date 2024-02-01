@@ -5,7 +5,10 @@ cod,
 cant,
 PU,
 Fecha,
-SUM(Cant * PU) OVER (PARTITION BY COD ) AS TotalVent
+estacion,
+
+SUM(Cant * PU) OVER (PARTITION BY COD ) AS TotalVent,
+ROW_NUMBER() OVER (PARTITION BY fecha order by cod desc ) AS VentasPorFecha
 from RE_RemisionesLinea
 where fecha > '2022-01-01 00:00:00'
 order by TotalVent
