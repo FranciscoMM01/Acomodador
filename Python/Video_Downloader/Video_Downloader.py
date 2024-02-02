@@ -5,16 +5,16 @@ from pydrive2.drive import GoogleDrive
 
 #Variables de excel
 file_path = 'Enlace_Videos/enlaces.xlsx' 
-sheet_name = 'Sheet1'
+sheet_name = 'Sheet1' 
 Column_name = 'VIDEOS'
 
 
 #*Credenciales de drive
-directorio_credenciales = 'credential_module.json'
-id_folder = '1FNE0yYI0aAuLU_JtzhVBNFg3cvOYKKV5'
+directorio_credenciales = 'credential_module.json' #Archivo que se crea al hacer el login en la API de Google
+id_folder = '1FNE0yYI0aAuLU_JtzhVBNFg3cvOYKKV5'  #ultimos digitos despues de la / en la ruta que aparece en la carpeta de Drive
 
 
-#* INICIO DE SESION EN DRIVE
+#* INICIO DE SESION EN DRIVE  Gran parte de esta funcion se toma de la documentación de Google API
 def login():
     GoogleAuth.DEFAULT_SETTINGS['client_config_file'] = directorio_credenciales
     gauth = GoogleAuth()    #? gauth significa Google AUTHentication
@@ -55,6 +55,6 @@ def main():
     #* Subir videos
         subir_archivo(f'yt/{video.title}.mp4',id_folder)
 
-if __name__ == '__main__':
+if __name__ == '__main__': #Se ejecuta función main
     main()
 
