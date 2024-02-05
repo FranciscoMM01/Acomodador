@@ -1,6 +1,6 @@
 import pyshorteners
 import  streamlit as st
-import qrcode
+import qrcode 
 
 def shorten_url(url):
     s = pyshorteners.Shortener()
@@ -33,6 +33,7 @@ def generate_QR_code(url, filename):
 
 if st.button ("Generar QR"):
     generate_QR_code(url, filename)
+    st.image(filename,use_column_width=True)
     with open(filename, "rb") as f:
                     image_data = f.read()
-                    
+
