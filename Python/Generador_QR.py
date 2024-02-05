@@ -1,5 +1,6 @@
 import qrcode
 import streamlit as st
+import yagmail
 
 #? directorio de guardado
 filename = "QR_codes/QR_code.png"
@@ -25,6 +26,7 @@ def generate_QR_code(url, filename):
 st.set_page_config(page_title="Generador de QR", page_icon="😎", layout="centered")
 st.image("Logo01.jpeg", use_column_width=True)
 st.title("Generador de código QR")
+destinatarios = st.text_input("Ingrese el correo a enviar")
 url = st.text_input("Ingrese el URL")
 
 if st.button("Generar Codigo QR"):
@@ -33,3 +35,11 @@ if st.button("Generar Codigo QR"):
     with open(filename, "rb") as f:
                     image_data = f.read()
     download = st.download_button(label="Descargar QR", data=image_data, file_name="QR_Generado.png")
+
+    #* Se envia por correo
+    from configMail import (email,contraseña)
+    yag = yagmail.SMTP(user=email, password=contraseña)
+    asunto = 'QR Acortado'
+    mensaje = 'Envio de QR por acortador de link'
+    yag.send(destinatarios,asunto, mensaje, attachments=['.\\QR_codes\\QR_Code.png'])
+
