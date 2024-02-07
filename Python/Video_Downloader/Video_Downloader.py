@@ -5,16 +5,18 @@ from pydrive2.drive import GoogleDrive
 
 #Variables de excel
 file_path = 'Enlace_Videos/enlaces.xlsx' 
-sheet_name = 'Sheet1' 
+sheet_name = 'Sheet1'
 Column_name = 'VIDEOS'
 
 
 #*Credenciales de drive
-directorio_credenciales = 'credential_module.json' #Archivo que se crea al hacer el login en la API de Google
-id_folder = '1FNE0yYI0aAuLU_JtzhVBNFg3cvOYKKV5'  #ultimos digitos despues de la / en la ruta que aparece en la carpeta de Drive
+directorio_credenciales = 'credential_module.json' #Archivo generado después de correr el Drive_quickstart.py
+id_folder = '1FNE0yYI0aAuLU_JtzhVBNFg3cvOYKKV5'
+#El ID_Folder corresponde al codigo depues de la / en la ruta de la carpeta de Drive
 
 
-#* INICIO DE SESION EN DRIVE  Gran parte de esta funcion se toma de la documentación de Google API
+#* INICIO DE SESION EN DRIVE
+#Esto viene directo en la documentación de Drive
 def login():
     GoogleAuth.DEFAULT_SETTINGS['client_config_file'] = directorio_credenciales
     gauth = GoogleAuth()    #? gauth significa Google AUTHentication
@@ -30,6 +32,10 @@ def login():
     gauth.SaveCredentialsFile(directorio_credenciales)
     credentials = GoogleDrive(gauth)
     return credentials
+
+
+
+
 
 #* Subir archivo
 def subir_archivo(ruta_archivo,id_folder):
@@ -55,6 +61,9 @@ def main():
     #* Subir videos
         subir_archivo(f'yt/{video.title}.mp4',id_folder)
 
-if __name__ == '__main__': #Se ejecuta función main
+    print(f'Enlace de descarga: {video['webContentLink']}')
+
+if __name__ == '__main__':
     main()
+
 
