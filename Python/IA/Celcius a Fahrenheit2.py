@@ -2,7 +2,7 @@ from tabnanny import verbose
 from matplotlib import units
 import tensorflow as tf
 import numpy as np
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 #Creación de array de entrada y de salida
 celsius = np.array([-40,-10,0,8,15,22,38], dtype=float)
