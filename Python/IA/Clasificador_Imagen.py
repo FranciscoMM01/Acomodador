@@ -50,4 +50,35 @@ for i, (imagen, etiqueta) in enumerate(datos_entrenamiento.take(25)):
     plt.imshow(imagen, cmap=plt.cm.binary)
     plt.xlabel(nombres_clase[etiqueta])
     
+plt.show()      #Fin de las muestras de imagenes
+
+#* Se crea el modelo
+modelo = tf.keras.Sequential([
+    tf.keras.layers.Flatten(input_shape=(28,28,1)), #Esta funcion busca tomar esta matriz y aplaztarla a una dimension
+    tf.keras.layers.Dense(50,activation=tf.nn.relu),
+    tf.keras.layers.Dense(50,activation=tf.nn.relu),
+    tf.keras.layers.Dense(10,activation=tf.nn.softmax) #Se suele usar en clasificacion, para mostrar unicamente el de mayor peso
+])
+
+#*Compilar el modelo
+modelo.compile(
+    optimizer='adam',
+    loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+    metrics=['accuracy']
+)
+
+num_ej_entrenamiento = metadatos.splits['train'].num_examples
+num_ej_pruebas = metadatos.splits['test'].num_examples
+
+tamano_lote = 32 #Se usa para entrenar por medio de lotes
+datos_entrenamiento = datos_entrenamiento.repeat().shuffle(num_ej_entrenamiento).batch(tamano_lote)
+datos_pruebas = datos_pruebas.batch(tamano_lote)
+
+import math
+#*Comenzar a entrenar
+historial = modelo.fit(datos_entrenamiento, epochs=5, steps_per_epoch = math.ceil(num_ej_entrenamiento/tamano_lote))
+
+plt.xlabel("# epoca")
+plt.ylabel("Magnitud de perdida")
+plt.plot(historial.history["loss"])
 plt.show()
