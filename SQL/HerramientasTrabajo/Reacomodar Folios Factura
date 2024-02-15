@@ -1,0 +1,22 @@
+USE VENT0
+GO
+
+				--FUNCIÓN PARA VERIFICAR LA EXISTENCIA DE UNA TABLA
+DECLARE @NombreTabla VARCHAR(MAX) = 'Folios';
+
+IF NOT EXISTS( SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = @NombreTabla)
+BEGIN
+	DECLARE @sql NVARCHAR(MAX)
+	SET @sql = 'CREATE TABLE '+ @NombreTabla +' ('
+		+ 'ID identity, '
+		+ 'FolioViejo int, '
+		+ 'FolioNuevo int ) ';
+	EXEC sp_executesql @sql;
+
+	PRINT 'La tabla se ha creado'
+
+END
+
+ELSE 
+	PRINT 'La tabla ya existe';
+          -- TERMINA FUNCIÓN DE VERIFICACIÓN DE EXISTENCIA
