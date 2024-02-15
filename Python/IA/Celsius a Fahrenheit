@@ -33,3 +33,6 @@ print("El resultado es "+ str(resultado) + " fahrenheit")
 # Muestra el peso y sesgo
 print("Variables entrenadas")
 print(capa.get_weights())
+
+#* Exportar el modelo en formato h5
+modelo.save('celsius_a_fahrenheit.h5')
