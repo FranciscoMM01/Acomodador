@@ -20,3 +20,22 @@ END
 ELSE 
 	PRINT 'La tabla ya existe';
           -- TERMINA FUNCIÓN DE VERIFICACIÓN DE EXISTENCIA
+
+	  --OBTENER EL FOLIO SIGUIENTE
+CREATE TABLE #FiltroFolios(
+	Folios int 
+)
+INSERT INTO #FiltroFolios (Folios)
+SELECT FolioFac
+FROM VE_Factura;
+
+DELETE #FiltroFolios
+FROM #FiltroFolios
+INNER JOIN Folios  ON #FiltroFolios.Folios = Folios.Folioviejo
+
+SELECT * FROM #FiltroFolios
+
+--DECLARE @FolioSig INT = MAX(SELECT Folios TOP(1) FROM #FiltroFolios)
+DECLARE @FolioSig INT  = (SELECT TOP(1) FOLIOS from #FiltroFolios order by folios desc) + 1;
+PRINT @FolioSig
+DROP TABLE #FiltroFolios
