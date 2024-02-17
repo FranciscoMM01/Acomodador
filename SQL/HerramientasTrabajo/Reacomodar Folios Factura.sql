@@ -58,6 +58,9 @@ BEGIN
 
 		--print('VIEJO: ' + CAST(@ValorColumna AS VARCHAR(10)) + ' NUEVO: ' + CAST(@folioSig AS VARCHAR(10)))
 		PRINT('UPDATE VE_Factura SET FolioFac = '+ CAST(@folioSig AS VARCHAR(10)) + ' WHERE FolioFac = ' + CAST(@ValorColumna AS VARCHAR(10)) + ' AND SerieFac = ''MM''')
+		PRINT('UPDATE PV_TicketsFacturados SET FolioFac = '+ CAST(@folioSig AS VARCHAR(10)) + ' WHERE FolioFac = ' + CAST(@ValorColumna AS VARCHAR(10)) + ' AND SerieFac = ''MM''')
+		PRINT('UPDATE PV_Ventas_Por_Producto SET FolioFac = '+ CAST(@folioSig AS VARCHAR(10)) + ' WHERE FolioFac = ' + CAST(@ValorColumna AS VARCHAR(10)) + ' AND SerieFac = ''MM''')
+		
 		SET @i = @i + 1;
 		SET @FolioSig = @FolioSig +1
 END
