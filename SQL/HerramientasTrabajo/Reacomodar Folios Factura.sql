@@ -39,3 +39,4 @@ SELECT * FROM #FiltroFolios
 DECLARE @FolioSig INT  = (SELECT TOP(1) FOLIOS from #FiltroFolios order by folios desc) + 1;
 PRINT @FolioSig
 DROP TABLE #FiltroFolios
+
