@@ -1,3 +1,4 @@
+
 --Paso1: Usar la base que se quiere corregir
 USE VENT0
 GO
@@ -66,18 +67,24 @@ BEGIN
 	FROM ZZ_FoliosSaltos
 	WHERE ID = @i
 
-		PRINT('UPDATE VE_Factura SET FolioFac = '+ CAST(@folioSig AS VARCHAR(10)) + ' WHERE FolioFac = ' + CAST(@ValorColumna AS VARCHAR(10)) + ' AND SerieFac = ''MM''')
-		PRINT('UPDATE PV_TicketsFacturados SET FolioFac = '+ CAST(@folioSig AS VARCHAR(10)) + ' WHERE FolioFac = ' + CAST(@ValorColumna AS VARCHAR(10)) + ' AND SerieFac = ''MM''')
-		PRINT('UPDATE PV_Ventas_Por_Producto SET FolioFac = '+ CAST(@folioSig AS VARCHAR(10)) + ' WHERE FolioFac = ' + CAST(@ValorColumna AS VARCHAR(10)) + ' AND SerieFac = ''MM''')
+		DECLARE @QueryVe_Factura NVARCHAR(MAX)
+		DECLARE @QueryPV_Tickets NVARCHAR(MAX)
+		DECLARE @QueryPV_VxP NVARCHAR(MAX)
+
+		SET @QueryVe_Factura = 'UPDATE VE_Factura SET FolioFac = '+ CAST(@folioSig AS VARCHAR(10)) + ' WHERE FolioFac = ' + CAST(@ValorColumna AS VARCHAR(10)) + ' AND SerieFac = ''FA'''
+		SET @QueryPV_Tickets = 'UPDATE PV_TicketsFacturados SET FolioFac = '+ CAST(@folioSig AS VARCHAR(10)) + ' WHERE FolioFac = ' + CAST(@ValorColumna AS VARCHAR(10)) + ' AND SerieFac = ''FA'''
+		SET @QueryPV_VxP = 'UPDATE PV_Ventas_Por_Producto SET FolioFac = '+ CAST(@folioSig AS VARCHAR(10)) + ' WHERE FolioFac = ' + CAST(@ValorColumna AS VARCHAR(10)) + ' AND SerieFac = ''FA'''
+		
+		EXEC sp_executesql @queryVe_Factura;
+		EXEC sp_executesql @QueryPV_Tickets
+		EXEC sp_executesql @QueryPV_VxP
+
+		--PRINT @QueryVE_Factura
+		--PRINT @QueryPV_Tickets
+		--PRINT @QueryPV_VxP
+
 		SET @i = @i + 1;
 		SET @FolioSig = @FolioSig +1
 END
 DROP TABLE #FiltroFolios
 
-
---Paso 6: Traer las tablas para verificar que estén correctas
-
-
---SELECT TOP(1000) * FROM VE_Factura WHERE Seriefac = 'MM' order by Foliofac desc
---SELECT TOP(1000) * FROM PV_TicketsFacturados WHERE Seriefac = 'MM' order by Foliofac desc
---SELECT TOP(1000) * FROM PV_Ventas_por_Producto WHERE Seriefac = 'MM' order by Foliofac desc
